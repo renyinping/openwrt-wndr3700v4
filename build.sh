@@ -58,6 +58,7 @@ image_build_system()
 	UNPACK_DIR=${HOME}/wndr3700v4/OpenWrt-ImageBuilder-15.05.1-ar71xx-nand.Linux-x86_64
 	
 	unpack_tar_bz2 "${UNPACK_DIR}" "${DL_URL}";
+	nand128m;
 	rm -rf ${IMAGE_BUILDER_DIR};
 	ln -s ${UNPACK_DIR} ${IMAGE_BUILDER_DIR};
 }
