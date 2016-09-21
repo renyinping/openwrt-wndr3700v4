@@ -58,7 +58,6 @@ image_build_system()
 	UNPACK_DIR=${HOME}/wndr3700v4/OpenWrt-ImageBuilder-15.05.1-ar71xx-nand.Linux-x86_64
 	
 	unpack_tar_bz2 "${UNPACK_DIR}" "${DL_URL}";
-	nand128m;
 	rm -rf ${IMAGE_BUILDER_DIR};
 	ln -s ${UNPACK_DIR} ${IMAGE_BUILDER_DIR};
 }
@@ -86,7 +85,20 @@ luci()
 	fi;
 	
 	pushd ${IMAGE_BUILDER_DIR};
-	make image PROFILE=WNDR4300 PACKAGES="${LUCI}" FILES=files;
+	nand128m;
+	make image PROFILE=WNDR4300 PACKAGES="${LUCI}"
+	popd;
+}
+
+dnsmasq_full()
+{
+	if [ ! -d "${IMAGE_BUILDER_DIR}" ]; then
+		image_build_system;
+	fi;
+	
+	pushd ${IMAGE_BUILDER_DIR};
+	nand128m;
+	make image PROFILE=WNDR4300 PACKAGES="${LUCI} -dnsmasq dnsmasq-full"
 	popd;
 }
 
@@ -104,7 +116,8 @@ smb()
 	fi;
 	
 	pushd ${IMAGE_BUILDER_DIR};
-	make image PROFILE=WNDR4300 PACKAGES="${LUCI} ${USB} ${SMB} ${FAT32} ${NTFS}" FILES=files;
+	nand128m;
+	make image PROFILE=WNDR4300 PACKAGES="${LUCI} ${USB} ${SMB} ${FAT32} ${NTFS}";
 	popd;
 }
 
@@ -117,7 +130,8 @@ bt()
 	fi;
 	
 	pushd ${IMAGE_BUILDER_DIR};
-	make image PROFILE=WNDR4300 PACKAGES="${LUCI} ${USB} ${SMB} ${FAT32} ${NTFS} ${BT}" FILES=files;
+	nand128m;
+	make image PROFILE=WNDR4300 PACKAGES="${LUCI} ${USB} ${SMB} ${FAT32} ${NTFS} ${BT}";
 	popd;
 }
 
