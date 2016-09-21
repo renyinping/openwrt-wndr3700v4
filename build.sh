@@ -77,7 +77,7 @@ sdk_build_system()
 }
 
 # luci
-LUCI='luci luci-i18n-base-zh-cn luci-i18n-firewall-zh-cn ca-certificates'
+LUCI='luci luci-i18n-base-zh-cn luci-i18n-firewall-zh-cn'
 luci()
 {
 	if [ ! -d "${IMAGE_BUILDER_DIR}" ]; then
@@ -85,15 +85,17 @@ luci()
 	fi;
 	
 	pushd ${IMAGE_BUILDER_DIR};
-	make image PROFILE=WNDR4300 PACKAGES="${LUCI}";
+	make image PROFILE=WNDR4300 PACKAGES="${LUCI}" FILES=files;
 	popd;
 }
 
 # samba
 USB='kmod-usb-storage kmod-usb-storage-extras kmod-scsi-core block-mount usbutils blkid fdisk e2fsprogs hdparm kmod-fs-ext4'
 SMB='luci-app-samba luci-i18n-samba-zh-cn'
-FAT32='kmod-fs-vfat kmod-nls-cp437 kmod-nls-iso8859-1'
+FAT32='kmod-fs-vfat kmod-nls-cp437 kmod-nls-iso8859-1 dosfsck mkdosfs dosfslabel'
+EXFAT='kmod-fs-exfat'
 NTFS='kmod-fs-ntfs'
+F2FS='kmod-fs-f2fs libf2fs f2fs-tools'
 smb()
 {
 	if [ ! -d "${IMAGE_BUILDER_DIR}" ]; then
@@ -101,7 +103,7 @@ smb()
 	fi;
 	
 	pushd ${IMAGE_BUILDER_DIR};
-	make image PROFILE=WNDR4300 PACKAGES="${LUCI} ${USB} ${SMB} ${FAT32} ${NTFS}";
+	make image PROFILE=WNDR4300 PACKAGES="${LUCI} ${USB} ${SMB} ${FAT32} ${NTFS}" FILES=files;
 	popd;
 }
 
@@ -114,7 +116,7 @@ bt()
 	fi;
 	
 	pushd ${IMAGE_BUILDER_DIR};
-	make image PROFILE=WNDR4300 PACKAGES="${LUCI} ${USB} ${SMB} ${FAT32} ${NTFS} ${BT}";
+	make image PROFILE=WNDR4300 PACKAGES="${LUCI} ${USB} ${SMB} ${FAT32} ${NTFS} ${BT}" FILES=files;
 	popd;
 }
 
