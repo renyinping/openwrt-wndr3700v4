@@ -135,6 +135,21 @@ bt()
 	popd;
 }
 
+# xx-net
+XXNET='pyopenssl bash zram-swap unzip screen'
+xxnet()
+{
+	if [ ! -d "${IMAGE_BUILDER_DIR}" ]; then
+		image_build_system;
+	fi;
+	
+	pushd ${IMAGE_BUILDER_DIR};
+	nand128m;
+	wget -O packages/pyopenssl_0.10-1_ar71xx.ipk https://downloads.openwrt.org/barrier_breaker/14.07/ar71xx/nand/packages/oldpackages/pyopenssl_0.10-1_ar71xx.ipk
+	make image PROFILE=WNDR4300 PACKAGES="${LUCI} ${XXNET}"
+	popd;
+}
+
 ################################################################
 if [ -z "$1" ]; then
 	cat $0 | grep \(\)$
